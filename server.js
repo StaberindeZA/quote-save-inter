@@ -13,6 +13,7 @@ app.set('port', (process.env.API_PORT || 3001));
 app.use(express.json());
 
 app.get('/api/quotes', (req,res) => {
+  console.log(db);
   res.json(db);
 });
 

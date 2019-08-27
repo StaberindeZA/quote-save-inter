@@ -38,6 +38,16 @@ class QuotesAdd extends React.Component {
     this.setState({value: ''});
   }
 
+  componentDidMount() {
+    const url = '/api/quotes';
+    fetch(url)
+      .then(response => response.json())
+      .then(
+        // data => this.setState({value: data[0].text})
+        data => console.log(data)
+      );
+  }
+
   render() {
     return (
       <QuoteAdd 
