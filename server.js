@@ -1,6 +1,5 @@
 const express = require('express');
 const fs = require('fs');
-const sqlite = require('sql.js');
 
 const filebuffer = fs.readFileSync('db/quotes.json');
 
