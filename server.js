@@ -8,7 +8,7 @@ const db = JSON.parse(filebuffer);
 
 const app = express();
 
-app.set('port', (process.env.API_PORT || 3001));
+app.set('port', (process.env.API_PORT || 5000));
 
 app.use(express.json());
 
