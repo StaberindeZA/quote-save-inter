@@ -24,6 +24,5 @@
     "client": "babel-node start-client.js",
     "build": "cd quote-save-inter-client/ && npm install && npm run build"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

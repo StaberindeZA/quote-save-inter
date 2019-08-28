@@ -44,7 +44,7 @@ class QuotesAdd extends React.Component {
       .then(response => response.json())
       .then(
         // data => this.setState({value: data[0].text})
-        data => console.log(data)
+        data => console.log("This is what we want:", data)
       );
   }
 
