@@ -22,14 +22,20 @@ const Quote = (props) => (
 )
 
 const ListDisplay = (props) => {
+  let listOfQuotes;
 
-  const listOfQuotes = props.quotes.map((quote) => (
-    <Quote
-      key={quote.id}
-      quote={quote}
-      deleteClick={props.onDeleteClick}
-    />
-  ));
+  if(props.quotes)
+  {
+     listOfQuotes = props.quotes.map((quote) => (
+      <Quote
+        key={quote.id}
+        quote={quote}
+        deleteClick={props.onDeleteClick}
+      />
+    ));
+  } else {
+    listOfQuotes = "No quotes have been added. Be the first!";
+  }
   
   return (
     <div>

@@ -11,19 +11,32 @@ const initialState = [
     id: '234',
     text: 'If you are distressed by anything external, the pain is not due to the thing itself, but to your estimate of it; and this you have the power to revoke at any moment. - Marcus Aurelius'
   }
-]
+];
 
-function quotes(state = initialState, action) {
+const initialState2 = null;
+
+export function quotes(state = initialState2, action) {
   switch(action.type) {
     case ADD_QUOTE: {
-      const newState = [
-        ...state,
-        {
-          id: uuid.v4(),
-          text: action.payload.text
-        }
-      ];
 
+      // Update the state in store
+      let newState = [];
+      if(state) {
+        newState = [
+          ...state,
+          {
+            id: uuid.v4(),
+            text: action.payload.text
+          }
+        ];
+      } else {
+        newState = [
+          {
+            id: uuid.v4(),
+            text: action.payload.text
+          }
+        ]
+      };
       return newState;
     }
     case DELETE_QUOTE: {

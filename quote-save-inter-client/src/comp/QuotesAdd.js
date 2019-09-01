@@ -1,22 +1,13 @@
 import React from 'react';
 
 import store from '../redux/store';
-import { addQuote } from '../redux/actions';
+import { addQuote, remoteQuotes } from '../redux/actions';
 
 import { Button, Form } from 'semantic-ui-react';
 
 const QuoteAdd = (props) => (
-  // <div>
-  //   <form onSubmit={props.submit}>
-  //     <label>
-  //       <div class="ui input"><textarea onChange={props.quoteChange} /></div>
-  //     </label>
-  //     <input type="submit" value="Submit" />
-  //   </form>
-  // </div>
-
   <Form onSubmit={props.submit}>
-    <Form.TextArea onChange={props.quoteChange} />
+    <Form.TextArea value={props.value} onChange={props.quoteChange} />
     <Form.Button>Add</Form.Button>
   </Form>
 )
@@ -33,7 +24,8 @@ class QuotesAdd extends React.Component {
   onSubmit = (event) => {
     event.preventDefault();
 
-    store.dispatch(addQuote(this.state.value));
+    // store.dispatch(addQuote(this.state.value));
+    store.dispatch(remoteQuotes(this.state.value));
 
     this.setState({value: ''});
   }
@@ -43,14 +35,21 @@ class QuotesAdd extends React.Component {
     fetch(url)
       .then(response => response.json())
       .then(
+        (quotesList) => {
+          quotesList.forEach((quote) => {
+            store.dispatch(addQuote(quote.text))
+          })
+        }
         // data => this.setState({value: data[0].text})
-        data => console.log("This is what we want:", data)
+        // data => console.log("This is what we want:", data)
+        
       );
   }
 
   render() {
     return (
       <QuoteAdd 
+        value={this.state.value}
         submit={this.onSubmit}
         quoteChange={this.onQuoteChange}
       />
