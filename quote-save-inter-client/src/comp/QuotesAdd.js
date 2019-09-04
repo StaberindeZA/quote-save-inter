@@ -1,7 +1,8 @@
 import React from 'react';
 
+import uuid from 'uuid';
 import store from '../redux/store';
-import { addQuote, remoteQuotes } from '../redux/actions';
+import { addQuote, remoteAddQuotes } from '../redux/actions';
 
 import { Button, Form } from 'semantic-ui-react';
 
@@ -24,8 +25,16 @@ class QuotesAdd extends React.Component {
   onSubmit = (event) => {
     event.preventDefault();
 
+    // Build dispatch
+    const quote = {
+      id: uuid.v4(),
+      author: 'PLACEHOLDER',
+      text: this.state.value,
+      dateadded: new Date()
+    }
+
     // store.dispatch(addQuote(this.state.value));
-    store.dispatch(remoteQuotes(this.state.value));
+    store.dispatch(remoteAddQuotes(quote));
 
     this.setState({value: ''});
   }
@@ -37,7 +46,13 @@ class QuotesAdd extends React.Component {
       .then(
         (quotesList) => {
           quotesList.forEach((quote) => {
-            store.dispatch(addQuote(quote.text))
+            const fullQuote = {
+              id: quote.id,
+              authoer: quote.author,
+              text: quote.text,
+              dateadded: quote.dateadded
+            };
+            store.dispatch(addQuote(fullQuote));
           })
         }
         // data => this.setState({value: data[0].text})

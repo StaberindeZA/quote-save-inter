@@ -2,12 +2,10 @@ import { ADD_QUOTE, DELETE_QUOTE } from "./actionTypes";
 
 function postQuote(quote) {
   let quotePostFormat = [{
-    "author": "Test Auth",
+    "author": "PLACEHOLDER",
     "text": quote,
-    "dateadded": 1566821162
+    "dateadded": new Date()
   }];
-
-  console.log(quotePostFormat);
 
   return fetch(
     '/api/quotes', {
@@ -17,10 +15,13 @@ function postQuote(quote) {
   );
 }
 
-export const addQuote = (text) => ({
+export const addQuote = (quote) => ({
   type: ADD_QUOTE,
   payload: {
-    text: text,
+    id: quote.id,
+    author: quote.author,
+    text: quote.text,
+    dateadded: quote.dateadded
   }
 });
 
@@ -31,7 +32,7 @@ export const deleteQuote = (id) => ({
   }
 });
 
-export const remoteQuotes = (quote) => {
+export const remoteAddQuotes = (quote) => {
   return function (dispatch) {
     return postQuote(quote)
       .then(

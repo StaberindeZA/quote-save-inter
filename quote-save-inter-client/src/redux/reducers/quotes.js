@@ -1,15 +1,17 @@
 import { ADD_QUOTE, DELETE_QUOTE } from '../actionTypes';
 
-import uuid from 'uuid';
-
 const initialState = [
   {
     id: '123',
-    text: 'When you arise in the morning think of what a privilege it is to be alive, to think, to enjoy, to love. - Marcus Aurelius'
+    text: 'When you arise in the morning think of what a privilege it is to be alive, to think, to enjoy, to love. - Marcus Aurelius',
+    author: 'Marcus Aurelius',
+    dateadded: new Date()
   },
   {
     id: '234',
-    text: 'If you are distressed by anything external, the pain is not due to the thing itself, but to your estimate of it; and this you have the power to revoke at any moment. - Marcus Aurelius'
+    text: 'If you are distressed by anything external, the pain is not due to the thing itself, but to your estimate of it; and this you have the power to revoke at any moment. - Marcus Aurelius',
+    author: 'Marcus Aurelius',
+    dateadded: new Date()
   }
 ];
 
@@ -25,15 +27,19 @@ export function quotes(state = initialState2, action) {
         newState = [
           ...state,
           {
-            id: uuid.v4(),
-            text: action.payload.text
+            id: action.payload.id,
+            text: action.payload.text,
+            author: action.payload.author,
+            dateadded: action.payload.dateadded
           }
         ];
       } else {
         newState = [
           {
-            id: uuid.v4(),
-            text: action.payload.text
+            id: action.payload.id,
+            text: action.payload.text,
+            author: action.payload.author,
+            dateadded: action.payload.dateadded
           }
         ]
       };
