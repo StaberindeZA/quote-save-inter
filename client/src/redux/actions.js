@@ -2,16 +2,21 @@ import { ADD_QUOTE, DELETE_QUOTE } from "./actionTypes";
 import { deleteSingleQuote } from "../client";
 
 function postQuote(quote) {
-  let quotePostFormat = [{
-    "author": "PLACEHOLDER",
-    "text": quote,
-    "dateadded": new Date()
-  }];
+  let quotePostFormat = {
+    "id": quote.id,
+    "author": quote.author,
+    "text": quote.text,
+    "dateadded": quote.dateadded
+  };
 
   return fetch(
     '/api/quotes', {
-    method: 'post',
-    body: JSON.stringify(quotePostFormat)
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(quotePostFormat)
     }
   );
 }

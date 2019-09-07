@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
-const { db2, Quotes } = require('./db/index.js');
+const uuidv4 = require('uuid/v4');
+const { Quotes } = require('./db/index.js');
 
 const filebuffer = fs.readFileSync('db/quotes.json');
 
@@ -20,8 +21,7 @@ app.use(express.json());
 function checkPostBody(body) {
   let message = '';
   console.log(body);
-  if(!body.id ||
-     !body.author ||
+  if(!body.author ||
      !body.text ||
      !body.dateadded) {
     message = 'Invalid post content provided.';
@@ -76,6 +76,21 @@ async function deleteSingleQuote(quoteID) {
   }
 }
 
+async function createSingleQuote(quote) {
+  try {
+    const quoteAdd = await Quotes.create({
+      id: !quote.id ? uuidv4() : quote.id,
+      author: quote.author,
+      text: quote.text,
+      dateadded: quote.dateadded
+    });
+
+    return quoteAdd;
+  } catch (e) {
+    throw e;
+  }
+}
+
 // --------------------
 // ROUTES START HERE
 // --------------------
@@ -90,6 +105,7 @@ app.get('/api/quotes', async (req,res) => {
 app.post('/api/quotes', async (req,res) => {
   let message = '';
   const jsonData = req.body;
+  console.log("This is the body baby:\n", jsonData);
 
   message = checkPostBody(jsonData);
 
@@ -100,7 +116,7 @@ app.post('/api/quotes', async (req,res) => {
   };
 
   try {    
-    writeQuote(jsonData);
+    createSingleQuote(jsonData);
   } catch (e) {
     res.status(500).send("Error occurred while saving quote to DB.");
     return;

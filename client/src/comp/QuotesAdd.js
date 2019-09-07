@@ -36,6 +36,7 @@ class QuotesAdd extends React.Component {
 
     // store.dispatch(addQuote(this.state.value));
     store.dispatch(remoteAddQuotes(quote));
+    console.log(quote);
 
     this.setState({value: ''});
   }

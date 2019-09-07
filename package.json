@@ -18,7 +18,8 @@
     "fs": "0.0.2",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^5.18.0"
+    "sequelize": "^5.18.0",
+    "uuid": "^3.3.3"
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
