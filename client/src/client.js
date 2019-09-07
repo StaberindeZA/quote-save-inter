@@ -23,3 +23,10 @@ export async function initialLoadStore() {
     store.dispatch(addQuote(fullQuote));
   });
 }
+
+export async function deleteSingleQuote(id) {
+  const url = `/api/quotes/${id}`;
+  const fetchRes = await fetch(url, { method: 'DELETE' });
+  console.log(fetchRes);
+  return "Success";
+}

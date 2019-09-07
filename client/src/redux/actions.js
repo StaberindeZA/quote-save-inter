@@ -1,4 +1,5 @@
 import { ADD_QUOTE, DELETE_QUOTE } from "./actionTypes";
+import { deleteSingleQuote } from "../client";
 
 function postQuote(quote) {
   let quotePostFormat = [{
@@ -37,6 +38,16 @@ export const remoteAddQuotes = (quote) => {
     return postQuote(quote)
       .then(
         test => dispatch(addQuote(quote)),
+        error => console.log(error)
+      );
+  };
+}
+
+export const remoteDeleteQuotes = (id) => {
+  return function (dispatch) {
+    return deleteSingleQuote(id)
+      .then(
+        test => dispatch(deleteQuote(id)),
         error => console.log(error)
       );
   };

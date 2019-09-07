@@ -43,12 +43,37 @@ async function getAllDBData() {
 }
 
 async function getSingleQuote(quoteID) {
-  const quote = await Quotes.findAll({
-    where: {
-      id: quoteID
-    }
-  });
-  return quote;
+  try {
+    const quote = await Quotes.findAll({
+      where: {
+        id: quoteID
+      }
+    });
+    return quote;
+  } catch (e) {
+    console.log(e);
+    return [];
+  }
+}
+
+async function deleteSingleQuote(quoteID) {
+  try {
+    const quote = await Quotes.findAll({
+      where: {
+        id: quoteID
+      }
+    });
+    // const result = await Quotes.destory({
+    const result = await Quotes.destroy({  
+      where: {
+        id: quoteID
+      }
+    });
+    return result;
+  } catch (e) {
+    console.log("oh no an error occurred \n", e)
+    return;
+  }
 }
 
 // --------------------
@@ -84,16 +109,16 @@ app.post('/api/quotes', async (req,res) => {
   res.send("Data saved successfully!");
 });
 
-app.delete('/api/quotes/:id', (req,res) => {
+app.delete('/api/quotes/:id', async (req,res) => {
   const deleteID = req.params.id;
 
-  console.log("Delete ID:", deleteID);
+  const quote = await getSingleQuote(deleteID);
 
-  const found = db.find((entry) => {
-    return entry.id === deleteID;
-  });
+  let found = false;
 
-  console.log("Found: ",found);
+  if(quote && quote.length) {
+    found = true; 
+  }
 
   if(!found) {
     res.status(404).send("Quote could not be found!");
@@ -101,12 +126,10 @@ app.delete('/api/quotes/:id', (req,res) => {
   }
 
   try {  
-    const newDB = db.filter(entry => entry.id !== deleteID);
-    const data = JSON.stringify(newDB);  
-    fs.writeFileSync('db/quotes.json', data);
-    res.status(200).send("Succeessfully deleted");
+    const deleteResult = deleteSingleQuote(deleteID);
+    res.status(200).send("Successfully deleted!");
   } catch (e) {
-    res.status(500).send("Error occurred while saving quote to DB.");
+    res.status(500).send("Error occurred while deleting quote from DB.");
     return;
   }
 })

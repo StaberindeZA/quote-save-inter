@@ -3,7 +3,7 @@ import { Button, Segment, Icon } from 'semantic-ui-react';
 
 // Redux
 import { connect } from 'react-redux';
-import { deleteQuote } from '../redux/actions';
+import { remoteDeleteQuotes } from '../redux/actions';
 
 
 const Quote = (props) => (
@@ -54,7 +54,7 @@ const mapStateToListDisplayProps = (state) => {
 const mapDispatchToListDisplayProps = (dispatch) => (
   {
     onDeleteClick: (id) => (
-      dispatch(deleteQuote(id))
+      dispatch(remoteDeleteQuotes(id))
     ),
     dispatch: dispatch,
   }
