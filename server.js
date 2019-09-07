@@ -12,6 +12,11 @@ app.set('port', (process.env.API_PORT || 5000));
 
 app.use(express.json());
 
+// --------------------
+// HELPER FUNCTIONS
+// --------------------
+// @TODO - put into own module
+
 function checkPostBody(body) {
   let message = '';
   console.log(body);
@@ -34,14 +39,26 @@ function writeQuote(quote) {
 
 async function getAllDBData() {
   const quoteAdd = await Quotes.findAll();
-  console.log(quoteAdd);
   return quoteAdd;
 }
+
+async function getSingleQuote(quoteID) {
+  const quote = await Quotes.findAll({
+    where: {
+      id: quoteID
+    }
+  });
+  return quote;
+}
+
+// --------------------
+// ROUTES START HERE
+// --------------------
+// @TODO - Investigate express Router. What is that?
 
 app.get('/api/quotes', async (req,res) => {
   // res.json(db);
   const returnValue = await getAllDBData();
-  console.log(returnValue);
   res.send(returnValue);
 });
 
