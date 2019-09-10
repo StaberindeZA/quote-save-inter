@@ -1,31 +1,41 @@
 import React from 'react';
 import { Button, Segment, Icon, Message } from 'semantic-ui-react';
 
+// Components
+import QuotesAdd from "./QuotesAdd";
+
 // Redux
 import { connect } from 'react-redux';
 import { remoteDeleteQuotes } from '../redux/actions';
 
 
-const Quote = (props) => (
-  <Segment.Group horizontal>
-    <Segment>
-      <Message>
-        <Message.Header>{props.quote.author}</Message.Header>
-        {props.quote.text}
-      </Message>
-      <Button icon floated='right'
-        onClick={() => props.deleteClick(props.quote.id)}>
-        <Icon name='trash' />
-      </Button>
-      <Button icon floated='right'
-        onClick={() => props.deleteClick(props.quote.id)}>
-        <Icon name='trash' />
-      </Button>
-    </Segment>
-  </Segment.Group>
+const Quote = (props) => {
+  if(props.quoteEdit) {
+    return (
+      <QuotesAdd />
+    );
+  } else {
+    return (
+      <Segment.Group horizontal>
+        <Segment>
+          <Message hide>
+            <Message.Header>{props.quote.author}</Message.Header>
+            {props.quote.text}
+          </Message>
+          <Button icon floated='right'
+            onClick={() => props.deleteClick(props.quote.id)}>
+            <Icon name='trash' />
+          </Button>
+          <Button icon floated='right'
+            onClick={() => props.deleteClick(props.quote.id)}>
+            <Icon name='trash' />
+          </Button>
+        </Segment>
+      </Segment.Group>
+    );
+  }
+}
     
-)
-
 const ListDisplay = (props) => {
   let listOfQuotes;
 
@@ -35,6 +45,7 @@ const ListDisplay = (props) => {
       <Quote
         key={quote.id}
         quote={quote}
+        quoteEdit={false}
         deleteClick={props.onDeleteClick}
       />
     ));

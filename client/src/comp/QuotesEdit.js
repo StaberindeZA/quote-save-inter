@@ -2,15 +2,15 @@ import React from 'react';
 import uuid from 'uuid';
 
 import store from '../redux/store';
-import { addQuote, remoteAddQuotes } from '../redux/actions';
+import { editRemoteQuote } from '../redux/actions';
 
 import { Form } from 'semantic-ui-react';
 
 const QuoteAdd = (props) => (
   <Form onSubmit={props.submit}>
-    <Form.Input label='Author' placeholder='Author name' />
-    <Form.TextArea label='Quote' value={props.value} onChange={props.quoteChange} />
-    <Form.Button>Add</Form.Button>
+    <Form.Input label='Author' placeholder='Author' />
+    <Form.TextArea value={props.value} onChange={props.quoteChange} />
+    <Form.Button>Edit</Form.Button>
   </Form>
 )
 

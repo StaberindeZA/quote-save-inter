@@ -4,9 +4,15 @@ import React from 'react';
 import QuotesAdd from "./QuotesAdd";
 import QuotesList from "./QuotesList";
 
+import { initialLoadStore } from '../client';
+
 import { Container, Header } from 'semantic-ui-react';
 
 class QuotesContainer extends React.Component {
+  componentDidMount() {
+    // Client - Get items from DB and load into Store
+    initialLoadStore();  
+  }
 
   render() {
     return (
