@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Segment, Icon } from 'semantic-ui-react';
+import { Button, Segment, Icon, Message } from 'semantic-ui-react';
 
 // Redux
 import { connect } from 'react-redux';
@@ -9,9 +9,14 @@ import { remoteDeleteQuotes } from '../redux/actions';
 const Quote = (props) => (
   <Segment.Group horizontal>
     <Segment>
-      {props.quote.text}
-    </Segment>
-    <Segment>
+      <Message>
+        <Message.Header>{props.quote.author}</Message.Header>
+        {props.quote.text}
+      </Message>
+      <Button icon floated='right'
+        onClick={() => props.deleteClick(props.quote.id)}>
+        <Icon name='trash' />
+      </Button>
       <Button icon floated='right'
         onClick={() => props.deleteClick(props.quote.id)}>
         <Icon name='trash' />

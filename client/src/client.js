@@ -16,7 +16,7 @@ export async function initialLoadStore() {
   resJson.forEach((quote) => {
     const fullQuote = {
       id: quote.id,
-      authoer: quote.author,
+      author: quote.author,
       text: quote.text,
       dateadded: quote.dateadded
     };
