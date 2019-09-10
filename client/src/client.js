@@ -30,3 +30,25 @@ export async function deleteSingleQuote(id) {
   console.log(fetchRes);
   return "Success";
 }
+
+export async function updateSingleQuote(quote) {
+  const url = `/api/quotes/${quote.id}`;
+
+  let quotePutFormat = {
+    "id": quote.id,
+    "author": quote.author,
+    "text": quote.text,
+    "dateadded": quote.dateadded
+  };
+
+  return fetch(
+    url, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'PUT',
+      body: JSON.stringify(quotePutFormat)
+    }
+  );
+}

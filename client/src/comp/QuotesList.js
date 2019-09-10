@@ -3,6 +3,7 @@ import { Button, Segment, Icon, Message } from 'semantic-ui-react';
 
 // Components
 import QuotesAdd from "./QuotesAdd";
+import QuotesEdit from "./QuotesEdit";
 
 // Redux
 import { connect } from 'react-redux';
@@ -12,7 +13,9 @@ import { remoteDeleteQuotes } from '../redux/actions';
 const Quote = (props) => {
   if(props.quoteEdit) {
     return (
-      <QuotesAdd />
+      <QuotesEdit 
+        id={props.quote.id}
+      />
     );
   } else {
     return (
@@ -45,7 +48,7 @@ const ListDisplay = (props) => {
       <Quote
         key={quote.id}
         quote={quote}
-        quoteEdit={false}
+        quoteEdit={true}
         deleteClick={props.onDeleteClick}
       />
     ));

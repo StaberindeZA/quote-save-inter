@@ -2,54 +2,66 @@ import React from 'react';
 import uuid from 'uuid';
 
 import store from '../redux/store';
-import { editRemoteQuote } from '../redux/actions';
+// import { editRemoteQuote } from '../redux/actions';
 
 import { Form } from 'semantic-ui-react';
 
-const QuoteAdd = (props) => (
-  <Form onSubmit={props.submit}>
-    <Form.Input label='Author' placeholder='Author' />
-    <Form.TextArea value={props.value} onChange={props.quoteChange} />
-    <Form.Button>Edit</Form.Button>
-  </Form>
-)
+// Redux
+import { connect } from 'react-redux';
+import { remoteEditQuote } from '../redux/actions';
 
-class QuotesAdd extends React.Component {
+class QuoteEditDisplay extends React.Component {
   state = {
-    value: '',
+    value: this.props.quote.text,
   }
 
   onQuoteChange = (event) => {
     this.setState({value: event.target.value});
   }
 
-  onSubmit = (event) => {
+  onSaveClick = (event) => {
     event.preventDefault();
-
-    // Build dispatch
-    const quote = {
-      id: uuid.v4(),
-      author: 'PLACEHOLDER',
+    const editQuote = {
+      id: this.props.quote.id,
+      author: this.props.quote.author,
       text: this.state.value,
-      dateadded: new Date()
+      dateadded: this.props.quote.dateadded
     }
 
-    // store.dispatch(addQuote(this.state.value));
-    store.dispatch(remoteAddQuotes(quote));
-    console.log(quote);
-
-    this.setState({value: ''});
+    this.props.onSaveClick(editQuote);
   }
 
   render() {
     return (
-      <QuoteAdd 
-        value={this.state.value}
-        submit={this.onSubmit}
-        quoteChange={this.onQuoteChange}
-      />
-    )
+      <Form onSubmit={this.onSaveClick}>
+        <Form.Input label='Author' placeholder='Author'>
+          {this.props.quote.author}
+        </Form.Input>
+        <Form.TextArea value={this.state.value} onChange={this.onQuoteChange} />
+        <Form.Button>Save</Form.Button>
+      </Form>
+    );
   }
+};
+
+const mapStateToQuoteEditDisplayProps = (state, ownProps) => {
+
+  const quote = state.quotes.find((quote) => quote.id === ownProps.id);
+  const stateProps = { quote: quote };
+  
+  return stateProps;
 }
 
-export default QuotesAdd;
+const mapDispatchToQuoteEditDisplayProps = (dispatch) => (
+  {
+    onSaveClick: (quote) => (
+      dispatch(remoteEditQuote(quote))
+    ),
+    dispatch: dispatch,
+  }
+);
+
+export default connect(
+  mapStateToQuoteEditDisplayProps,
+  mapDispatchToQuoteEditDisplayProps
+)(QuoteEditDisplay);

@@ -1,5 +1,5 @@
-import { ADD_QUOTE, DELETE_QUOTE } from "./actionTypes";
-import { deleteSingleQuote } from "../client";
+import { ADD_QUOTE, DELETE_QUOTE, EDIT_QUOTE } from "./actionTypes";
+import { deleteSingleQuote, updateSingleQuote } from "../client";
 
 function postQuote(quote) {
   let quotePostFormat = {
@@ -31,6 +31,16 @@ export const addQuote = (quote) => ({
   }
 });
 
+export const editQuote = (quote) => ({
+  type: EDIT_QUOTE,
+  payload: {
+    id: quote.id,
+    author: quote.author,
+    text: quote.text,
+    dateadded: quote.dateadded
+  }
+});
+
 export const deleteQuote = (id) => ({
   type: DELETE_QUOTE,
   payload: {
@@ -43,6 +53,17 @@ export const remoteAddQuotes = (quote) => {
     return postQuote(quote)
       .then(
         test => dispatch(addQuote(quote)),
+        error => console.log(error)
+      );
+  };
+}
+
+export const remoteEditQuote = (quote) => {
+  console.log("Made it to remoteEditQuote", quote);
+  return function (dispatch) {
+    return updateSingleQuote(quote)
+      .then(
+        test => dispatch(editQuote(quote)),
         error => console.log(error)
       );
   };

@@ -76,6 +76,25 @@ async function deleteSingleQuote(quoteID) {
   }
 }
 
+async function updateSingleQuote(quote) {
+  try {
+    const dbQuote = await Quotes.findAll({
+      where: {
+        id: quote.id
+      }
+    });
+    const result = await Quotes.update({ author: quote.author, text: quote.text}, {
+      where: {
+        id: quote.id
+      }
+    });
+    return result;
+  } catch (e) {
+    console.log("oh no an error occurred\n", e);
+    return;
+  }
+}
+
 async function createSingleQuote(quote) {
   try {
     const quoteAdd = await Quotes.create({
@@ -123,6 +142,41 @@ app.post('/api/quotes', async (req,res) => {
   };
 
   res.send("Data saved successfully!");
+});
+
+app.put('/api/quotes/:id', async (req,res) => {
+  const updateID = req.params.id;
+  const quote = await getSingleQuote(updateID);
+
+  let found = false;
+
+  if(quote && quote.length) {
+    found = true; 
+  }
+
+  if(!found) {
+    res.status(404).send("Quote could not be found!");
+    return;
+  }
+
+  const jsonData = req.body;
+  console.log("This is the body baby:\n", jsonData);
+
+  const message = checkPostBody(jsonData);
+
+  // If a message is returned, return the message and exit.
+  if(message) {
+    res.status(500).send(message);
+    return;
+  };
+
+  try {  
+    const updateResult = updateSingleQuote(jsonData);
+    res.status(200).send("Successfully deleted!");
+  } catch (e) {
+    res.status(500).send("Error occurred while deleting quote from DB.");
+    return;
+  }
 });
 
 app.delete('/api/quotes/:id', async (req,res) => {

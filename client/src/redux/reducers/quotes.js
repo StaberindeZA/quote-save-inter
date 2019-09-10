@@ -1,4 +1,4 @@
-import { ADD_QUOTE, DELETE_QUOTE } from '../actionTypes';
+import { ADD_QUOTE, DELETE_QUOTE, EDIT_QUOTE } from '../actionTypes';
 
 const initialState = [
   {
@@ -44,6 +44,15 @@ export function quotes(state = initialState2, action) {
         ]
       };
       return newState;
+    }
+    case EDIT_QUOTE: {
+      // return state.map((q) => {
+      //   if(q.id === action.payload.id) {
+      //     q.author = action.payload.text;
+      //     q.text = action.payload.text;
+      //   }
+      // });
+      return state;
     }
     case DELETE_QUOTE: {
       return state.filter(q => q.id !== action.payload.id)
