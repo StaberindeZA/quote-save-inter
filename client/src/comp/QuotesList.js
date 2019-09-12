@@ -21,7 +21,7 @@ const Quote = (props) => {
     return (
       <Segment.Group horizontal>
         <Segment>
-          <Message hide>
+          <Message>
             <Message.Header>{props.quote.author}</Message.Header>
             {props.quote.text}
           </Message>
@@ -48,7 +48,7 @@ const ListDisplay = (props) => {
       <Quote
         key={quote.id}
         quote={quote}
-        quoteEdit={true}
+        quoteEdit={false}
         deleteClick={props.onDeleteClick}
       />
     ));

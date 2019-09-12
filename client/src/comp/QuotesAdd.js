@@ -8,19 +8,31 @@ import { Form } from 'semantic-ui-react';
 
 const QuoteAdd = (props) => (
   <Form onSubmit={props.submit}>
-    <Form.Input label='Author' placeholder='Author name' />
-    <Form.TextArea label='Quote' value={props.value} onChange={props.quoteChange} />
+    <Form.Input label='Author' placeholder='Author name' type="text" defaultValue={props.author} onChange={props.authorChange}/>
+    <Form.TextArea label='Quote' value={props.text} onChange={props.quoteChange} />
     <Form.Button>Add</Form.Button>
   </Form>
 )
 
 class QuotesAdd extends React.Component {
   state = {
-    value: '',
+    text: '',
+    author: '',
   }
 
   onQuoteChange = (event) => {
-    this.setState({value: event.target.value});
+    let prevState = this.state;
+    console.log(event.target.textContent);
+    prevState.text = event.target.text;
+    this.setState(prevState);
+  }
+
+  onAuthorChange = (event) => {
+    let prevState = this.state;
+    console.log(event);
+    prevState.author = event.target.text;
+    console.log(prevState);
+    this.setState(prevState);
   }
 
   onSubmit = (event) => {
@@ -29,24 +41,25 @@ class QuotesAdd extends React.Component {
     // Build dispatch
     const quote = {
       id: uuid.v4(),
-      author: 'PLACEHOLDER',
-      text: this.state.value,
+      author: this.state.author,
+      text: this.state.text,
       dateadded: new Date()
     }
 
-    // store.dispatch(addQuote(this.state.value));
     store.dispatch(remoteAddQuotes(quote));
     console.log(quote);
 
-    this.setState({value: ''});
+    this.setState({text: '', author: ''});
   }
 
   render() {
     return (
       <QuoteAdd 
-        value={this.state.value}
+        text={this.state.text}
+        author={this.state.author}
         submit={this.onSubmit}
         quoteChange={this.onQuoteChange}
+        authorChange={this.onAuthorChange}
       />
     )
   }
