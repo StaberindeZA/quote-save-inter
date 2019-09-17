@@ -31,7 +31,7 @@ const Quote = (props) => {
           </Button>
           <Button icon floated='right'
             onClick={() => props.deleteClick(props.quote.id)}>
-            <Icon name='trash' />
+            <Icon name='edit' />
           </Button>
         </Segment>
       </Segment.Group>
@@ -41,17 +41,29 @@ const Quote = (props) => {
     
 const ListDisplay = (props) => {
   let listOfQuotes;
+  let stateish = [];
 
-  if(props.quotes)
-  {
-     listOfQuotes = props.quotes.map((quote) => (
-      <Quote
-        key={quote.id}
-        quote={quote}
-        quoteEdit={false}
-        deleteClick={props.onDeleteClick}
-      />
-    ));
+  if(props.quotes) {
+
+    props.quotes.forEach((quote) => {
+      stateish.push({
+        id: quote.id,
+        quoteEdit: false
+      });
+    });
+
+    listOfQuotes = props.quotes.map((quote) => {
+      let quoteEdit = stateish.find((stater) =>  stater.id === quote.id );
+      console.log("It got here right?????", stateish); 
+      return (  
+        <Quote
+          key={quote.id}
+          quote={quote}
+          quoteEdit={quoteEdit.quoteEdit}
+          deleteClick={props.onDeleteClick}
+        />
+      )});
+
   } else {
     listOfQuotes = "No quotes have been added. Be the first!";
   }

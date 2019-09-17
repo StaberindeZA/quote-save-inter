@@ -8,7 +8,7 @@ import { Form } from 'semantic-ui-react';
 
 const QuoteAdd = (props) => (
   <Form onSubmit={props.submit}>
-    <Form.Input label='Author' placeholder='Author name' type="text" defaultValue={props.author} onChange={props.authorChange}/>
+    <Form.Input label='Author' placeholder='Author name' type="text" value={props.author} onChange={props.authorChange}/>
     <Form.TextArea label='Quote' value={props.text} onChange={props.quoteChange} />
     <Form.Button>Add</Form.Button>
   </Form>
@@ -21,17 +21,14 @@ class QuotesAdd extends React.Component {
   }
 
   onQuoteChange = (event) => {
-    let prevState = this.state;
-    console.log(event.target.textContent);
-    prevState.text = event.target.text;
+    let prevState = this.state;    
+    prevState.text = event.target.value;
     this.setState(prevState);
   }
 
   onAuthorChange = (event) => {
-    let prevState = this.state;
-    console.log(event);
-    prevState.author = event.target.text;
-    console.log(prevState);
+    let prevState = this.state;    
+    prevState.author = event.target.value;
     this.setState(prevState);
   }
 
