@@ -38,7 +38,11 @@ function writeQuote(quote) {
 }
 
 async function getAllDBData() {
-  const quoteAdd = await Quotes.findAll();
+  const quoteAdd = await Quotes.findAll({
+    order: [
+      ['createdAt', 'ASC'],
+    ],
+  });
   return quoteAdd;
 }
 
