@@ -2,7 +2,6 @@ import React from 'react';
 import uuid from 'uuid';
 
 import store from '../redux/store';
-// import { editRemoteQuote } from '../redux/actions';
 
 import { Form } from 'semantic-ui-react';
 
@@ -21,11 +20,10 @@ class QuoteEditDisplay extends React.Component {
 
   onSaveClick = (event) => {
     event.preventDefault();
+
     const editQuote = {
-      id: this.props.quote.id,
-      author: this.props.quote.author,
-      text: this.state.value,
-      dateadded: this.props.quote.dateadded
+      ...this.props.quote,
+      text: this.state.value
     }
 
     this.props.onSaveClick(editQuote);
