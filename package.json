@@ -25,7 +25,7 @@
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "babel-node start-server.js",
     "client": "babel-node start-client.js",
-    "build": "cd quote-save-inter-client/ && npm install && npm run build"
+    "build": "cd client/ && npm install && npm run build"
   },
   "devDependencies": {}
 }
